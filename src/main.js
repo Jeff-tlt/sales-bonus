@@ -55,8 +55,7 @@ function analyzeSalesData(data, options) {
     !Array.isArray(data.purchase_records) ||
     data.purchase_records.length === 0
   ) {
-    return { error: 'Некорректные входные данные!', data: data };
-    //throw new ('Некорректные входные данные!');
+    throw new 'Некорректные входные данные!'();
   }
   // @TODO: Проверка наличия опций
   if (
@@ -65,30 +64,21 @@ function analyzeSalesData(data, options) {
     options === null ||
     Array.isArray(options)
   ) {
-    return { error: 'Ожидаю объект с функциями!', data: options };
-    //throw new Error('Ожидаю объект с функциями!');
+    throw new Error('Ожидаю объект с функциями!');
   }
 
   //теперь проверим это точно функции передали
   const { calculateRevenue, calculateBonus } = options;
   //проверю передали не пустоту
   if (!calculateBonus || !calculateRevenue) {
-    return {
-      error: 'Проблемы с функциями',
-      calculateBonus: calculateBonus,
-      calculateRevenue: calculateRevenue,
-    };
+    throw new Error('Проблемы с функциями');
   }
   //проверю функции, что это реально объек функции
   if (
     typeof calculateBonus !== 'function' ||
     typeof calculateRevenue !== 'function'
   ) {
-    return {
-      error: 'Параметры должны быть функциями',
-      calculateBonus: calculateBonus,
-      calculateRevenue: calculateRevenue,
-    };
+    throw new Error('Параметры должны быть функциями');
   }
 
   // @TODO: Подготовка промежуточных данных для сбора статистики
